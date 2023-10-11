@@ -11,19 +11,19 @@ let score = 0
 SetText("click to start!")
 
 
-var isJumping = false
+let isJumping = false
 let gameOver = true
 
 document.addEventListener('click', () => jump())
 
 
-setInterval(function () { Main()}, 10)
+setInterval(function () { Main()}, 20)
 
 function Main()
 {
     if(gameOver == false)
     {
-        score = score + 1;
+        score += 1
         SetText("Score: " + score)
 
         CheckGameOver()
@@ -33,12 +33,12 @@ function Main()
 
 function jump()
 {
-    if(gameOver === false)
+    if(gameOver == false)
     {
-        if(isJumping == false)
+        if(isJumping == false && dino)
         {
             isJumping = true
-            dino?.classList.add("jump")
+            dino.classList.add("jump")
             setTimeout(RemoveJump, 500)
         }
     }
@@ -52,15 +52,20 @@ function jump()
 
 function RemoveJump()
 {
-    dino?.classList.remove("jump")
-    isJumping = false;
-    //mainLoop = mainLoop //bug fix?
+    if(dino){
+        dino.classList.remove("jump")
+        isJumping = false
+        //mainLoop = mainLoop //bug fix?
+    }
+    
 }
 
 function RemoveObstacles()
 {
-    cactus?.classList.remove("cactusMove")
-    bird?.classList.remove("birdMove")
+    if(cactus && bird) {
+        cactus.classList.remove("cactusMove")
+        bird.classList.remove("birdMove")
+    }
 }
 
 
