@@ -14,16 +14,16 @@ SetText("click to start!")
 let isJumping = false
 let gameOver = true
 
-document.addEventListener('click', () => jump())
+document.addEventListener('mousedown', () => jump())
 
 
 setInterval(function () { Main()}, 20)
 
 function Main()
 {
-    if(gameOver == false)
+    if(!gameOver)
     {
-        score += 1
+        score ++
         SetText("Score: " + score)
 
         CheckGameOver()
@@ -33,9 +33,9 @@ function Main()
 
 function jump()
 {
-    if(gameOver == false)
+    if(!gameOver)
     {
-        if(isJumping == false && dino)
+        if(!isJumping && dino)
         {
             isJumping = true
             dino.classList.add("jump")
@@ -72,7 +72,7 @@ function RemoveObstacles()
 function CheckGameOver()
 {
 
-    if(gameOver == false && dino != null && cactus != null && bird != null)
+    if(!gameOver && dino != null && cactus != null && bird != null)
     {
         //get is dinosaur jumping
         let dinoTop = parseInt(window.getComputedStyle(dino).getPropertyValue("top"))
@@ -103,7 +103,7 @@ function CheckGameOver()
         {
             //end game
             console.log("player died!")
-            SetText("Final Score: " + score + "! Click To Play Again!")
+            SetText("Final Score: " + score + " Click To Play Again!")
             gameOver = true
 
             //reset player
@@ -112,9 +112,30 @@ function CheckGameOver()
             //reset cactus
             RemoveObstacles()
         }
+
+        CheckCollision(dinoTop, cactusleft, birdleft)
     }
 }
 
+function CheckCollision(dinoTop: number, cactusleft: number, birdleft: number): void{
+    if(dinoTop <= 55 && Math.abs(birdleft) < 7)
+        {
+            endgame()
+        } else if (dinoTop <= 150 && Math.abs(birdleft) < 11){
+            endgame()
+        }
+}
+
+function endgame(): void{
+            console.log("player died!")
+            SetText("Final Score: " + score + " Click To Play Again!")
+            gameOver = true
+             //reset player
+             RemoveJump()
+            
+             //reset cactus
+             RemoveObstacles()
+}
 
 function StartGame()
 {
